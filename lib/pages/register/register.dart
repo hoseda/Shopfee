@@ -5,6 +5,7 @@ import 'package:shopfee/components/input/text_input.dart';
 import 'package:shopfee/consts/colors/colors.dart';
 import 'package:shopfee/consts/textStyle/textStyle.dart';
 import 'package:shopfee/pages/login/login.dart';
+import 'package:shopfee/pages/otpCode/otp_code.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -245,7 +246,7 @@ class _RegisterPageState extends State<RegisterPage>
                                                           ),
                                                         ),
                                                         Text(
-                                                          '081234567891',
+                                                          "0${phoneController.text}",
                                                           style: ConstTextStyle
                                                               .B12M(
                                                             ConstColors
@@ -253,7 +254,7 @@ class _RegisterPageState extends State<RegisterPage>
                                                           ),
                                                         ),
                                                         Text(
-                                                          ' is active',
+                                                          ' is active.',
                                                           style: ConstTextStyle
                                                               .B12R(
                                                             ConstColors
@@ -279,14 +280,31 @@ class _RegisterPageState extends State<RegisterPage>
                                                 height: 40,
                                                 title: 'Cancel',
                                                 coloured: false,
-                                                function: () {},
+                                                function: () {
+                                                  Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 200),
+                                                    () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  );
+                                                },
                                               ),
                                               RectangleButton(
                                                 width: 108,
                                                 height: 40,
                                                 title: 'Confirm',
                                                 coloured: true,
-                                                function: () {},
+                                                function: () {
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const OtpLoading(),
+                                                    ),
+                                                  );
+                                                },
                                               ),
                                             ],
                                           ),
