@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,7 +14,67 @@ class OTPPage extends StatefulWidget {
 }
 
 class _OTPPageState extends State<OTPPage> {
-  int _box = 0;
+  TextEditingController con = TextEditingController();
+  String code = "";
+
+  Widget _textFieldOTP(bool first, bool last) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: SizedBox(
+        height: 70,
+        width: 60,
+        child: TextField(
+          autofocus: true,
+          enableInteractiveSelection: false,
+          contextMenuBuilder: null,
+          onChanged: (value) {
+            if (value.length == 1 && last == false) {
+              code = code + value;
+              FocusScope.of(context).nextFocus();
+            }
+            if (value.isEmpty && first == false) {
+              FocusScope.of(context).previousFocus();
+            }
+          },
+          onTapOutside: (event) {
+            FocusScope.of(context).unfocus();
+          },
+          showCursor: false,
+          readOnly: false,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.w500,
+            color: ConstColors.TextHeading,
+          ),
+          keyboardType: TextInputType.number,
+          maxLength: 1,
+          decoration: InputDecoration(
+            counter: const Offstage(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                width: 1.5,
+                color: ConstColors.Brand,
+                strokeAlign: BorderSide.strokeAlignInside,
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                width: 2,
+                color: Colors.transparent,
+                strokeAlign: BorderSide.strokeAlignInside,
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            filled: true,
+            fillColor: ConstColors.NeutralMedium,
+            contentPadding: const EdgeInsets.symmetric(vertical: 5),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +101,7 @@ class _OTPPageState extends State<OTPPage> {
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -65,55 +127,22 @@ class _OTPPageState extends State<OTPPage> {
             const SizedBox(
               height: 35,
             ),
-            SizedBox(
-              height: 70,
-              child: ListView.builder(
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _box = index;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        width: 60,
-                        height: 70,
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.fastEaseInToSlowEaseOut,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color:
-                              index == _box ? null : ConstColors.NeutralMedium,
-                          border: index == _box
-                              ? Border.all(
-                                  color: ConstColors.Brand,
-                                  width: 1.5,
-                                  strokeAlign: BorderSide.strokeAlignInside,
-                                )
-                              : null,
-                          boxShadow: index == _box
-                              ? const [
-                                  BoxShadow(
-                                    color: ConstColors.Brand,
-                                    offset: Offset(0, 0),
-                                    blurRadius: 4,
-                                    spreadRadius: 0,
-                                    blurStyle: BlurStyle.outer,
-                                  ),
-                                ]
-                              : [],
-                        ),
-                        //todo : childe
-                        // child: TextField(),
-                      ),
-                    ),
-                  );
-                },
+            Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              onChanged: () {
+                print(con.text);
+              },
+              child: SizedBox(
+                height: 70,
+                child: Row(
+                  children: [
+                    _textFieldOTP(true, false),
+                    _textFieldOTP(false, false),
+                    _textFieldOTP(false, false),
+                    _textFieldOTP(false, false),
+                    _textFieldOTP(false, true),
+                  ],
+                ),
               ),
             ),
             const SizedBox(
@@ -164,7 +193,7 @@ class _OTPPageState extends State<OTPPage> {
             const SizedBox(
               height: 102,
             ),
-            const RectangleButton(width: 335, height: 48, title: "Confirm"),
+            // const RectangleButton(width: 335, height: 48, title: "Confirm"),
           ],
         ),
       ),
