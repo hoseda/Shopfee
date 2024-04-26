@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shopfee/components/buttons/buttons.dart';
 import 'package:shopfee/consts/colors/colors.dart';
 import 'package:shopfee/consts/textStyle/textStyle.dart';
@@ -15,7 +13,16 @@ class OTPPage extends StatefulWidget {
 
 class _OTPPageState extends State<OTPPage> {
   TextEditingController con = TextEditingController();
-  String code = "";
+  List<String> code = List.empty(growable: true);
+
+  int findKey(String char) {
+    int idx = code.lastIndexWhere((element) => element == char);
+    return idx;
+  }
+
+  void prin() {
+    print(code.length);
+  }
 
   Widget _textFieldOTP(bool first, bool last) {
     return Padding(
@@ -23,16 +30,20 @@ class _OTPPageState extends State<OTPPage> {
       child: SizedBox(
         height: 70,
         width: 60,
+        //todo:tomorow
         child: TextField(
           autofocus: true,
           enableInteractiveSelection: false,
           contextMenuBuilder: null,
           onChanged: (value) {
             if (value.length == 1 && last == false) {
-              code = code + value;
+              code.add(value);
               FocusScope.of(context).nextFocus();
             }
             if (value.isEmpty && first == false) {
+              int id = findKey(value);
+              code.removeAt(id);
+              print(code.length);
               FocusScope.of(context).previousFocus();
             }
           },
@@ -127,22 +138,16 @@ class _OTPPageState extends State<OTPPage> {
             const SizedBox(
               height: 35,
             ),
-            Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              onChanged: () {
-                print(con.text);
-              },
-              child: SizedBox(
-                height: 70,
-                child: Row(
-                  children: [
-                    _textFieldOTP(true, false),
-                    _textFieldOTP(false, false),
-                    _textFieldOTP(false, false),
-                    _textFieldOTP(false, false),
-                    _textFieldOTP(false, true),
-                  ],
-                ),
+            SizedBox(
+              height: 70,
+              child: Row(
+                children: [
+                  _textFieldOTP(true, false),
+                  _textFieldOTP(false, false),
+                  _textFieldOTP(false, false),
+                  _textFieldOTP(false, false),
+                  _textFieldOTP(false, true),
+                ],
               ),
             ),
             const SizedBox(
@@ -193,7 +198,14 @@ class _OTPPageState extends State<OTPPage> {
             const SizedBox(
               height: 102,
             ),
-            // const RectangleButton(width: 335, height: 48, title: "Confirm"),
+            RectangleButton(
+              width: 335,
+              height: 48,
+              title: "Confirm",
+              function: () {
+                prin();
+              },
+            ),
           ],
         ),
       ),
