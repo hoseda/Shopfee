@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gif/gif.dart';
 import 'package:shopfee/consts/colors/colors.dart';
 import 'package:shopfee/consts/textStyle/textStyle.dart';
-import 'package:shopfee/pages/otpCode/otp_page.dart';
 
 class OtpLoading extends StatefulWidget {
   final String number;
