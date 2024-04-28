@@ -33,13 +33,17 @@ class _OTPPageState extends State<OTPPage> {
               setState(() {
                 code.insert(index, value);
               });
-              FocusScope.of(context).nextFocus();
+              if (index < 4) {
+                FocusScope.of(context).nextFocus();
+              }
             }
             if (value.isEmpty) {
               setState(() {
                 code.removeAt(index);
               });
-              FocusScope.of(context).previousFocus();
+              if (index > 0) {
+                FocusScope.of(context).previousFocus();
+              }
             }
           },
           onTapOutside: (event) {
@@ -198,7 +202,7 @@ class _OTPPageState extends State<OTPPage> {
               width: 335,
               height: 48,
               title: "Confirm",
-              function: code.length < 5 ? null : () {},
+              function: () {},
             ),
           ],
         ),
