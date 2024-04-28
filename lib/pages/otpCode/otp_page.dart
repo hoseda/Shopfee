@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shopfee/components/buttons/buttons.dart';
 import 'package:shopfee/consts/colors/colors.dart';
 import 'package:shopfee/consts/textStyle/textStyle.dart';
+import 'package:shopfee/pages/otpCode/otp_code.dart';
+import 'package:shopfee/pages/pin/pin_page.dart';
 
 class OTPPage extends StatefulWidget {
   final String number;
@@ -202,7 +204,18 @@ class _OTPPageState extends State<OTPPage> {
               width: 335,
               height: 48,
               title: "Confirm",
-              function: () {},
+              function: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OtpLoading(
+                      number: widget.number,
+                      info: "We are processing your account",
+                      nextPage: const PinCodePage(),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

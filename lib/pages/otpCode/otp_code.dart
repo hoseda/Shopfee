@@ -8,7 +8,14 @@ import 'package:shopfee/pages/otpCode/otp_page.dart';
 
 class OtpLoading extends StatefulWidget {
   final String number;
-  const OtpLoading({super.key, required this.number});
+  final String info;
+  final Widget? nextPage;
+  const OtpLoading({
+    super.key,
+    required this.number,
+    required this.info,
+    required this.nextPage,
+  });
 
   @override
   State<OtpLoading> createState() => _OtpLoadingState();
@@ -28,9 +35,7 @@ class _OtpLoadingState extends State<OtpLoading> with TickerProviderStateMixin {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => OTPPage(
-            number: widget.number,
-          ),
+          builder: (context) => widget.nextPage!,
         ),
       );
     });
@@ -78,12 +83,12 @@ class _OtpLoadingState extends State<OtpLoading> with TickerProviderStateMixin {
           Positioned(
             bottom: 300,
             right: 95,
-            left: 101,
+            left: 94,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "we will send you the OTP code.",
+                  widget.info,
                   style: ConstTextStyle.B14R(ConstColors.TextHeading),
                 ),
               ],

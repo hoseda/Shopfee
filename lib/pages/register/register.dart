@@ -6,6 +6,7 @@ import 'package:shopfee/consts/colors/colors.dart';
 import 'package:shopfee/consts/textStyle/textStyle.dart';
 import 'package:shopfee/pages/login/login.dart';
 import 'package:shopfee/pages/otpCode/otp_code.dart';
+import 'package:shopfee/pages/otpCode/otp_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -304,6 +305,13 @@ class _RegisterPageState extends State<RegisterPage>
                                                           OtpLoading(
                                                         number: phoneController
                                                             .text,
+                                                        info:
+                                                            "we will send you the OTP code.",
+                                                        nextPage: OTPPage(
+                                                          number:
+                                                              phoneController
+                                                                  .text,
+                                                        ),
                                                       ),
                                                     ),
                                                   );
