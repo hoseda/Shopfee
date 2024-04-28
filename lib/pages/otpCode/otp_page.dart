@@ -5,45 +5,40 @@ import 'package:shopfee/consts/colors/colors.dart';
 import 'package:shopfee/consts/textStyle/textStyle.dart';
 
 class OTPPage extends StatefulWidget {
-  const OTPPage({super.key});
+  final String number;
+  const OTPPage({
+    super.key,
+    required this.number,
+  });
 
   @override
   State<OTPPage> createState() => _OTPPageState();
 }
 
 class _OTPPageState extends State<OTPPage> {
-  TextEditingController con = TextEditingController();
-  List<String> code = List.empty(growable: true);
+  List code = [];
 
-  int findKey(String char) {
-    int idx = code.lastIndexWhere((element) => element == char);
-    return idx;
-  }
-
-  void prin() {
-    print(code.length);
-  }
-
-  Widget _textFieldOTP(bool first, bool last) {
+  Widget _textFieldOTP(int index) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: SizedBox(
         height: 70,
         width: 60,
-        //todo:tomorow
         child: TextField(
           autofocus: true,
           enableInteractiveSelection: false,
           contextMenuBuilder: null,
           onChanged: (value) {
-            if (value.length == 1 && last == false) {
-              code.add(value);
+            if (value.length == 1) {
+              setState(() {
+                code.insert(index, value);
+              });
               FocusScope.of(context).nextFocus();
             }
-            if (value.isEmpty && first == false) {
-              int id = findKey(value);
-              code.removeAt(id);
-              print(code.length);
+            if (value.isEmpty) {
+              setState(() {
+                code.removeAt(index);
+              });
               FocusScope.of(context).previousFocus();
             }
           },
@@ -122,7 +117,7 @@ class _OTPPageState extends State<OTPPage> {
                     SizedBox(
                       height: 63,
                       child: Text(
-                        "081234567891",
+                        "0${widget.number}",
                         style: ConstTextStyle.H24M(ConstColors.TextHeading),
                       ),
                     ),
@@ -141,12 +136,13 @@ class _OTPPageState extends State<OTPPage> {
             SizedBox(
               height: 70,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _textFieldOTP(true, false),
-                  _textFieldOTP(false, false),
-                  _textFieldOTP(false, false),
-                  _textFieldOTP(false, false),
-                  _textFieldOTP(false, true),
+                  _textFieldOTP(0),
+                  _textFieldOTP(1),
+                  _textFieldOTP(2),
+                  _textFieldOTP(3),
+                  _textFieldOTP(4),
                 ],
               ),
             ),
@@ -202,9 +198,7 @@ class _OTPPageState extends State<OTPPage> {
               width: 335,
               height: 48,
               title: "Confirm",
-              function: () {
-                prin();
-              },
+              function: code.length < 5 ? null : () {},
             ),
           ],
         ),

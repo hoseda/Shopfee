@@ -7,7 +7,8 @@ import 'package:shopfee/consts/textStyle/textStyle.dart';
 import 'package:shopfee/pages/otpCode/otp_page.dart';
 
 class OtpLoading extends StatefulWidget {
-  const OtpLoading({super.key});
+  final String number;
+  const OtpLoading({super.key, required this.number});
 
   @override
   State<OtpLoading> createState() => _OtpLoadingState();
@@ -27,7 +28,9 @@ class _OtpLoadingState extends State<OtpLoading> with TickerProviderStateMixin {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const OTPPage(),
+          builder: (context) => OTPPage(
+            number: widget.number,
+          ),
         ),
       );
     });

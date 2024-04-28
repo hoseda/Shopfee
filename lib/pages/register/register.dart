@@ -301,7 +301,10 @@ class _RegisterPageState extends State<RegisterPage>
                                                       .pushReplacement(
                                                     MaterialPageRoute(
                                                       builder: (context) =>
-                                                          const OtpLoading(),
+                                                          OtpLoading(
+                                                        number: phoneController
+                                                            .text,
+                                                      ),
                                                     ),
                                                   );
                                                 },
