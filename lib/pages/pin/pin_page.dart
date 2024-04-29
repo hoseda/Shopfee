@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shopfee/components/buttons/buttons.dart';
 import 'package:shopfee/consts/colors/colors.dart';
 import 'package:shopfee/consts/textStyle/textStyle.dart';
@@ -12,64 +13,78 @@ class PinCodePage extends StatefulWidget {
 
 class _PinCodePageState extends State<PinCodePage> {
   List code = [];
+  bool _visible = false;
+  bool _active = false;
+
+  Widget _obsecure() {
+    return Container(
+      width: 30,
+      height: 30,
+      decoration: BoxDecoration(
+        color: ConstColors.TextHeading,
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(
+          color: ConstColors.TextNonActive,
+          width: 2,
+        ),
+      ),
+    );
+  }
 
   Widget _textFieldPIN(int index) {
-    bool _filled = true;
+    return SizedBox(
+      width: 30,
+      height: 30,
+      child: TextField(
+        autofocus: true,
+        enableInteractiveSelection: false,
+        contextMenuBuilder: null,
+        textAlignVertical: TextAlignVertical.center,
+        textAlign: TextAlign.center,
+        onChanged: (value) {
+          if (value.length == 1) {
+            setState(() {
+              code.insert(index, value);
+            });
+            FocusScope.of(context).nextFocus();
+          }
+          if (value.isEmpty) {
+            setState(() {
+              code.removeAt(index);
+            });
+            FocusScope.of(context).previousFocus();
+          }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
-      child: SizedBox(
-        width: 30,
-        height: 36,
-        child: TextField(
-          autofocus: true,
-          enableInteractiveSelection: false,
-          contextMenuBuilder: null,
-          onChanged: (value) {
-            if (value.length == 1) {
-              setState(() {
-                code.insert(index, value);
-              });
-              if (index < 4) {
-                FocusScope.of(context).nextFocus();
-              }
-            }
-            if (value.isEmpty) {
-              setState(() {
-                code.removeAt(index);
-              });
-              if (index > 0) {
-                FocusScope.of(context).previousFocus();
-              }
-            }
-          },
-          onTapOutside: (event) {
-            FocusScope.of(context).unfocus();
-          },
-          showCursor: false,
-          readOnly: false,
-          textAlign: TextAlign.center,
-          // style: const TextStyle(
-          //   fontSize: 40,
-          //   fontWeight: FontWeight.w500,
-          //   color: ConstColors.TextHeading,
-          // ),
-          //todo : start from here
-          keyboardType: TextInputType.number,
-          maxLength: 1,
-          decoration: InputDecoration(
-            counter: const Offstage(),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(100),
-              borderSide: BorderSide(
-                color: ConstColors.TextNonActive,
-                width: 3,
-              ),
-            ),
-            filled: _filled,
-            fillColor: ConstColors.TextHeading,
-            contentPadding: EdgeInsets.zero,
+          if (code.length == 6) {
+            setState(() {
+              _active = true;
+            });
+          } else {
+            setState(() {
+              _active = false;
+            });
+          }
+        },
+        onTapOutside: (event) {
+          FocusScope.of(context).unfocus();
+        },
+        showCursor: false,
+        readOnly: false,
+        style: const TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.w500,
+          color: ConstColors.TextHeading,
+        ),
+        keyboardType: TextInputType.number,
+        maxLength: 1,
+        decoration: const InputDecoration(
+          counter: Offstage(),
+          border: UnderlineInputBorder(
+            borderRadius: BorderRadius.zero,
+            borderSide: BorderSide.none,
           ),
+          filled: false,
+          contentPadding: EdgeInsets.zero,
         ),
       ),
     );
@@ -96,12 +111,13 @@ class _PinCodePageState extends State<PinCodePage> {
           style: ConstTextStyle.T16M(ConstColors.TextHeading),
         ),
       ),
-      floatingActionButton: const Padding(
-        padding: EdgeInsets.symmetric(vertical: 80),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 80),
         child: RectangleButton(
           width: 335,
           height: 48,
           title: "Confirm",
+          function: _active ? () {} : null,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -152,13 +168,78 @@ class _PinCodePageState extends State<PinCodePage> {
                   ),
                   // here
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _textFieldPIN(0),
+                      AnimatedCrossFade(
+                        firstChild: _textFieldPIN(0),
+                        secondChild: _obsecure(),
+                        crossFadeState: _visible
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                        duration: const Duration(milliseconds: 200),
+                      ),
+                      AnimatedCrossFade(
+                        firstChild: _textFieldPIN(0),
+                        secondChild: _obsecure(),
+                        crossFadeState: _visible
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                        duration: const Duration(milliseconds: 200),
+                      ),
+                      AnimatedCrossFade(
+                        firstChild: _textFieldPIN(0),
+                        secondChild: _obsecure(),
+                        crossFadeState: _visible
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                        duration: const Duration(milliseconds: 200),
+                      ),
+                      AnimatedCrossFade(
+                        firstChild: _textFieldPIN(0),
+                        secondChild: _obsecure(),
+                        crossFadeState: _visible
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                        duration: const Duration(milliseconds: 200),
+                      ),
+                      AnimatedCrossFade(
+                        firstChild: _textFieldPIN(0),
+                        secondChild: _obsecure(),
+                        crossFadeState: _visible
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                        duration: const Duration(milliseconds: 200),
+                      ),
+                      AnimatedCrossFade(
+                        firstChild: _textFieldPIN(0),
+                        secondChild: _obsecure(),
+                        crossFadeState: _visible
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                        duration: const Duration(milliseconds: 200),
+                      ),
                     ],
                   ),
                   const SizedBox(
-                    height: 32,
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(!_visible ? "Hide your PIN" : "Show your PIN"),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _visible = !_visible;
+                          });
+                        },
+                        icon: Icon(
+                          _visible == false
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
